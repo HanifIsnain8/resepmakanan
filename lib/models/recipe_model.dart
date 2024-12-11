@@ -64,6 +64,32 @@ class RecipeModel {
     };
 }
 
+class RecipePagination {
+  int currentPage;
+  List<RecipeModel> recipes;
+  String? nextPageUrl;
+  String? prevPageUrl;
+
+  RecipePagination({
+    required this.currentPage,
+    required this.recipes,
+    this.nextPageUrl,
+    this.prevPageUrl,
+  });
+
+  factory RecipePagination.fromJson(Map<String, dynamic> json) {
+    return RecipePagination(
+      currentPage: json['current_page'] ?? 1,
+      recipes: (json['data'] as List?)
+              ?.map((recipe) => RecipeModel.fromJson(recipe))
+              .toList() ??
+          [],
+      nextPageUrl: json['next_page_url'],
+      prevPageUrl: json['prev_page_url'],
+    );
+  }
+}
+
 class User {
     int id;
     String name;
